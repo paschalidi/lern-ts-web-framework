@@ -7,14 +7,13 @@ interface ModelAttributes<T> {
   get<K extends keyof T>(key: K): T[K];
 }
 
-interface Sync<T> {
-  fetch(id: number): AxiosPromise;
-  save(data: T): AxiosPromise;
-}
-
 interface Events {
   on(eventName: string, cb: Callback): void;
   trigger(eventName: string): void;
+}
+interface Sync<T> {
+  fetch(id: number): AxiosPromise;
+  save(data: T): AxiosPromise;
 }
 
 interface HasId {
@@ -23,8 +22,8 @@ interface HasId {
 export class Model<T extends HasId> {
   constructor(
     private attributes: ModelAttributes<T>,
-    private sync: Sync<T>,
-    private events: Events
+    private events: Events,
+    private sync: Sync<T>
   ) {}
 
   get get() {
