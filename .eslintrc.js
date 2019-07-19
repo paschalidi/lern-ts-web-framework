@@ -1,30 +1,25 @@
-const path = require("path");
-
 module.exports = {
-  parserOptions: {
-    project: "./tsconfig.json",
-    tsconfigRootDir: "."
+  env: {
+    es6: true,
+    node: true,
+    jest: true
   },
-  plugins: ["prettier"],
-  extends: [
-    "plugin:import/typescript",
-    "plugin:prettier/recommended",
-    "prettier/@typescript-eslint"
-  ],
+  extends: "eslint:recommended",
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint"],
+  parserOptions: {
+    ecmaVersion: 2017,
+    sourceType: "module"
+  },
   rules: {
-    "import/named": "off",
-    /**
-     * @bug?
-     * "import/export" temporary disable.
-     */
-    "import/export": "off",
-    "import/prefer-default-export": "off", // Allow single Named-export
-    "no-unused-expressions": [
-      "warn",
-      {
-        allowShortCircuit: true,
-        allowTernary: true
-      }
-    ]
+    indent: ["error", 2],
+    "linebreak-style": ["error", "unix"],
+    "no-console": 0,
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { vars: "all", args: "after-used", ignoreRestSiblings: false }
+    ],
+    "no-empty": "warn",
   }
 };
