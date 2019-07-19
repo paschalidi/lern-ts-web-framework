@@ -26,17 +26,9 @@ export class Model<T extends HasId> {
     private sync: Sync<T>
   ) {}
 
-  get get() {
-    return this.attributes.get;
-  }
-
-  get on() {
-    return this.events.on;
-  }
-
-  get trigger() {
-    return this.events.trigger;
-  }
+  on = this.events.on;
+  get = this.attributes.get;
+  trigger = this.events.trigger;
 
   set(update: T) {
     this.attributes.set(update);
