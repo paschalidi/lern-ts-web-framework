@@ -1,9 +1,11 @@
+import { UserForm } from "./views/UserForm";
 import { User } from "./models/User";
 
-const user = User.buildUser({ id: 1, name: "newer name", age: 0 });
-
-user.on("change", () => {
-  console.log("Event Change triggered");
-});
-
-console.log(user.fetch());
+const user = User.buildUser({ name: "Christos", age: 27 });
+const rootElement = document.getElementById("root");
+if (rootElement) {
+  const form = new UserForm(rootElement, user);
+  form.render();
+} else {
+  throw new Error("Please add root element.");
+}
