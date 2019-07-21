@@ -3,8 +3,6 @@ import { User, UserProps } from "../models/User";
 
 export class UserForm extends View<User, UserProps> {
   eventsMap(): { [key: string]: () => void } {
-    const name = this.model.get("name");
-
     return {
       "click:#set-name": this.onSetName,
       "click:#set-age": this.onSetRandomAge
@@ -36,7 +34,9 @@ export class UserForm extends View<User, UserProps> {
             <h1>user</h1>
             <div>name: ${this.model.get("name")}</div>
             <div>age: ${this.model.get("age")}</div>
-            <input id="input-with-name" type="text" value="" placeholder="${this.model.get("name")}"/>
+            <input id="input-with-name" type="text" value="" placeholder="${this.model.get(
+              "name"
+            )}"/>
             <button id="set-name">Change Name</button>
             <button id="set-age">Set Random Age</button>
             <div class="error"></div>
