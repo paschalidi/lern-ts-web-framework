@@ -1,27 +1,65 @@
+import { User } from "../models/User";
+
 export class UserForm {
-  constructor(public parent: Element) {}
+  constructor(public parent: Element, public model: User) {
+    this.renderOnChange();
+  }
+  _addErrorForm = (): void => {
+    const errorNode = this.parent.querySelector(".error");
+    if (errorNode) {
+      errorNode.innerHTML = "";
+      errorNode.append(`Please add some text ;)`);
+    }
+  };
+
+  _clearErrorForm = (): void => {
+    const errorNode = this.parent.querySelector(".error");
+    if (errorNode) {
+      errorNode.innerHTML = "";
+    }
+  };
+  renderOnChange() {
+    this.model.on("change", () => {
+      this.render();
+    });
+  }
 
   eventsMap(): { [key: string]: () => void } {
     return {
-      "click:button": this.onButtonClick,
-      "mouseenter:h1": this.onHeaderHover
+      "click:#set-name": this.onSetName,
+      "click:#set-age": this.onSetRandomAge
     };
   }
 
-  onHeaderHover(): void {
-    console.log("Hooooover");
-  }
+  onSetName = (): void => {
+    const input = <HTMLInputElement>(
+      this.parent.querySelector("#input-with-name")
+    );
 
-  onButtonClick(): void {
-    console.log("hello mister");
-  }
+    if (input) {
+      const name = input.value;
+      if (name.length === 0) {
+        this._addErrorForm();
+      } else {
+        this._clearErrorForm();
+        this.model.set({ name });
+      }
+    }
+  };
+  onSetRandomAge = (): void => {
+    this.model.setRandomAge();
+  };
 
   template(): string {
     return `
         <div>
             <h1>user</h1>
-            <input type="text"/>
-            <button>Click me!</button>
+            <div>name: ${this.model.get("name")}</div>
+            <div>age: ${this.model.get("age")}</div>
+            <input id="input-with-name" type="text" value="", placeholder="insert name please"/>
+            <button id="set-name">Change Name</button>
+            <button id="set-age">Set Random Age</button>
+            <div class="error"></div>
         </div>`;
   }
 
@@ -39,6 +77,7 @@ export class UserForm {
   }
 
   render(): void {
+    this.parent.innerHTML = "";
     const templateElement = document.createElement("template");
     templateElement.innerHTML = this.template();
 
